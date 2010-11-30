@@ -14,27 +14,27 @@ To see this in action here is an example:
 public class MyPage extends Page {
 
     // Create a new jQuery ActionLink control called "link"
-    private JQActionLink link = new JQActionLink("link");
+    private ActionLink link = new ActionLink("link");
 
     public void onInit() {
         addControl(link);
 
-        link.setActionListener(new OnClickListener());
+        link.addBehavior(new MyBehavior());
     }
 
-    class OnClickListener extends AjaxAdapter {
+    class ClickBehavior extends DefaultAjaxBehavior {
 
         // When the link is clicked, this method is invoked that returns a Taconite
         // instance
-        public Partial onAjaxAction(Control source) {
+        public ActionResult onAction(Control source) {
 
-            // Create a new Taconite partial instance
-            Taconite partial = new Taconite();
+            // Create a new Taconite instance
+            Taconite result = new Taconite();
 
             // Insert a Table after the link
-            partial.after(link, new Table("table"));
+            result.after(link, new Table("table"));
 
-            return partial;
+            return result;
         }
     }
 }
@@ -55,36 +55,36 @@ Here is another example showing that multiple commands can be executed:
 {{{
 public class MyPage extends Page {
 
-    // Create a new jQuery ActionLink control called "link"
-    private JQActionLink link = new JQActionLink("link");
+    // Create a new ActionLink control called "link"
+    private ActionLink link = new ActionLink("link");
 
     public void onInit() {
         addControl(link);
 
-        link.setActionListener(new OnClickListener());
+        link.addBehavior(new MyBehavior());
     }
 
-    class OnClickListener extends AjaxAdapter {
+    class ClickBehavior extends DefaultAjaxBehavior {
 
         // When the link is clicked, this method is invoked that returns a Taconite
         // instance
-        public Partial onAjaxAction(Control source) {
+        public ActionResult onAction(Control source) {
 
             // Create a new Taconite partial instance
-            Taconite partial = new Taconite();
+            Taconite result = new Taconite();
 
             Table table = new Table("table");
 
             // Insert a Table after the link
-            partial.after(link, table);
+            result.after(link, table);
 
             Span span = new Span();
             span.setText("Hello World!");
 
             // Insert a Span element before the table
-            partial.before(table, span);
+            result.before(table, span);
 
-            return partial;
+            return result;
         }
     }
 }
@@ -104,23 +104,23 @@ The Taconite instance above will render the following XML document:
 </taconite>
 }}}
 
-If you know jQuery you might have realized that Taconite XML commands map directly to [http://docs.jquery.com/Manipulation jQuery methods]. Please see the [http://malsup.com/jquery/taconite/#commands Taconite Command] section for details.
+If you are familiar with jQuery you might have realized that Taconite XML commands map directly to [http://docs.jquery.com/Manipulation jQuery methods]. This gives you alot of control over code that is executed on the client-side. Please see the [http://malsup.com/jquery/taconite/#commands Taconite Command] section for details.
 
 === Features ===
 
-Here are some of the features:
+Here are some of the features provided by Click-jQuery:
 
  * Ajax actions can return any Click control to the browser. For example, one can submit a Form using Ajax that returns a new Form instance
- * When Ajax actions return a Click Control, the Control's CSS and !JavaScript resources are automatically added to the HTML page.
- * If CSS and JavaScript resources are already available to the browser, they will be ignored. For example if an Ajax action returns a Form, the Form's resources (control.js, control.css) will also be returned and added to the browser's HEAD section. If the Ajax action is invoked a second time the Form will be returned again. Click will detect that the resources (control.js and control.css) are already available to the browser and won't add them to the HEAD section again.
+ * When Ajax actions return a Click Control, the Control's CSS and !JavaScript resources are automatically added to the HTML page HEAD element.
+ * If CSS and JavaScript resources are already available to the browser, they will be ignored. For example if an Ajax action returns a Form, the Form's resources (control.js, control.css) will also be sent to the browser and added to the browser's HEAD element. If the Ajax action is invoked a second time, Click will detect that the resources (control.js and control.css) are already available to the browser and won't add them to the HEAD element again.
 
 === Infrastructure ===
 
-One of the main pieces is the !JavaScript file [http://code.google.com/p/clickclick/source/browse/trunk/clickclick/jquery/src/META-INF/web/clickclick/jquery/jquery.click.js jquery.click.js]. This script combines the plugins [http://malsup.com/jquery/taconite/ jQuery Taconite], [http://docs.jquery.com/Plugins/livequery jQuery LiveQuery] and custome Click specific code to handle some of the advanced features necessary to seamlessly support Ajax in Click applications. (Please note that [http://docs.jquery.com/Plugins/livequery jQuery LiveQuery plugin] will be removed in a future version once jQuery [http://docs.jquery.com/Events/live live()] supports more events.)
+One of the main pieces is the !JavaScript file [http://code.google.com/p/clickclick/source/browse/trunk/clickclick/jquery/src/META-INF/web/clickclick/jquery/jquery.click.js jquery.click.js]. This script combines the plugins [http://malsup.com/jquery/taconite/ jQuery Taconite], and custom, Click specific code to handle some of the advanced features necessary to seamlessly support Ajax in Click applications.
 
 === Ajax Integration ===
 
-CjQ (Click jQuery) takes the following approach at integrating Click and Ajax. First a Velocity template (which can be customized) is created that provides the jQuery code needed to make the Ajax call. As the template is Velocity based, we can easily create generic templates and pass in dynamic variables at runtime.
+Click-jQuery (CjQ) takes the following approach at integrating Click and Ajax. First a Velocity template (which can be customized) is created that provides the jQuery code needed to make the Ajax call. As the template is Velocity based, we can easily create generic templates and pass in dynamic variables at runtime.
 
 On the Java side a Click control could be used to associate with the template. However this means that each control will have to define the same variables to pass to the template. Ideally we would like to define a template and an independent Java class that can be reused in both Click Pages or custom Click Controls.
 
