@@ -1,6 +1,6 @@
 #summary Outlines jQuery support in Click-jQuery
 
-===  Click jQuery===
+===  Click-jQuery===
 
 The Click-jQuery project provides tight integration between Click and the [http://jquery.com/ jQuery] !JavaScript library.
 
