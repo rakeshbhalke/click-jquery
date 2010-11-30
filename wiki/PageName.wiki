@@ -1,12 +1,10 @@
-#summary Outlines jQuery support in ClickClick
+#summary Outlines jQuery support in Click-jQuery
 
-Please see the section [Ajax], for details on Ajax support provided by !ClickClick
+===  Click jQuery===
 
-===  JQuery Subproject ===
+The Click-jQuery project provides tight integration between Click and the [http://jquery.com/ jQuery] !JavaScript library.
 
-The jQuery sub-project provides tight integration between Click and the [http://jquery.com/ jQuery] !JavaScript library.
-
-JQuery support centers around the jQuery [http://malsup.com/jquery/taconite/ Taconite plugin]. Taconite is a plugin that allows you to make multiple DOM updates with a single Ajax request. With Taconite you specify a list of commands to be executed as the result of an Ajax request.
+Click-JQuery support centers around the jQuery [http://malsup.com/jquery/taconite/ Taconite plugin]. Taconite is a plugin that allows you to make multiple DOM updates with a single Ajax request. With Taconite you specify a list of commands to be executed as the result of an Ajax request.
 
 Taconite commands are built as a single XML document, which is returned to the browser where the commands are executed one by one.
 
