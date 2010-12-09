@@ -2,7 +2,7 @@
 
 = Introduction =
 
-This page describes how to provide Ajax support for Apache Click through [jQuery|http://www.jquery.com].
+This page describes how to provide Ajax support for Apache Click through [http://www.jquery.com|jQuery].
 
 
 = Details =
